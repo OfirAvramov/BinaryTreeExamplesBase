@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using DataStructureCore;
 
@@ -80,7 +79,7 @@ namespace BinaryTreeExamples
         /// <param name="root"></param>
         public static void PrintPreOrder<T>(BinNode<T> root)
         {
-         
+
 
         }
         #endregion
@@ -93,7 +92,7 @@ namespace BinaryTreeExamples
         /// <param name="root"></param>
         public static void PrintInOrder<T>(BinNode<T> root)
         {
-           
+
 
         }
         #endregion
@@ -106,7 +105,7 @@ namespace BinaryTreeExamples
         /// <param name="root"></param>
         public static void PrintPostOrder<T>(BinNode<T> root)
         {
-           
+
 
         }
         #endregion
@@ -145,14 +144,14 @@ namespace BinaryTreeExamples
         /// <returns></returns>
         public static int CountTreeNodes<T>(BinNode<T> root)
         {
-           
+            return 0;
         }
         #endregion
 
         #region האם ערך קיים בעץ
         public static bool IsExistsInTree<T>(BinNode<T> root, T val)
         {
-            
+            return false;
 
         }
         #endregion
@@ -164,7 +163,7 @@ namespace BinaryTreeExamples
         /// <returns></returns>
         public static bool EachHasTwoChilds<T>(BinNode<T> root)
         {
-           
+            return false;
         }
 
         /// <summary>
@@ -172,9 +171,9 @@ namespace BinaryTreeExamples
         /// </summary>
         /// <param name="root"></param>
         public static void UpdateCharTree(BinNode<char> root)
-            {
-           
-         
+        {
+
+
         }
 
         /// <summary>
@@ -186,8 +185,8 @@ namespace BinaryTreeExamples
 
         public static int CountLeaves<T>(BinNode<T> root)
         {
-           
-                
+            return 0;
+
         }
         /// <summary>
         /// שאלה 12
@@ -196,7 +195,7 @@ namespace BinaryTreeExamples
         /// <returns></returns>
         public static int CountBiggerInBetween(BinNode<double> root)
         {
-          
+            return 0;
         }
 
         #endregion
@@ -575,63 +574,111 @@ namespace BinaryTreeExamples
             }
             return null;
         }
-            #endregion
+        #endregion
 
-            #region מחיקת ערך בעץ חיפוש
-            //            The node has no children(it's a leaf node). You can delete it. ...
-            //The node has just one child.To delete the node, replace it with that child. ...
-            //The node has two children.In this case, find the MAX in the LEFT Side of the node. (or MIN of the RIGHT SIDE OF THE NODE)
+        #region מחיקת ערך בעץ חיפוש
+        //            The node has no children(it's a leaf node). You can delete it. ...
+        //The node has just one child.To delete the node, replace it with that child. ...
+        //The node has two children.In this case, find the MAX in the LEFT Side of the node. (or MIN of the RIGHT SIDE OF THE NODE)
 
-            public static BinNode<int> RemoveFromBST(BinNode<int> root, int key)
-            {
-
-
-                if (root == null)
-                    return root;
-                
-             
-                if (root.GetValue() > key)
-                {
-                   BinNode<int> parent = RemoveFromBST(root.GetLeft(), key);
-                    root.SetLeft(parent);
-                }
-                if (root.GetValue() < key)
-                {
-                    BinNode<int> parent = RemoveFromBST(root.GetRight(), key);
-                    root.SetRight(parent);
-                }
+        public static BinNode<int> RemoveFromBST(BinNode<int> root, int key)
+        {
 
 
-                if (root.GetValue() == key)
-                {
-                    if (!root.HasLeft() && !root.HasRight())
-                        return null;
-                    if (!root.HasLeft())
-                        return root.GetRight();
-                    if (!root.HasRight())
-                        return root.GetLeft();
-                    else
-                    {
-                        int maxval = FindMaxInBST(root.GetLeft());
-                        root.SetValue(maxval);
-                        root.SetLeft(RemoveFromBST(root.GetLeft(), maxval));
-                    }
-                }
+            if (root == null)
                 return root;
+
+
+            if (root.GetValue() > key)
+            {
+                BinNode<int> parent = RemoveFromBST(root.GetLeft(), key);
+                root.SetLeft(parent);
             }
+            if (root.GetValue() < key)
+            {
+                BinNode<int> parent = RemoveFromBST(root.GetRight(), key);
+                root.SetRight(parent);
+            }
+
+
+            if (root.GetValue() == key)
+            {
+                if (!root.HasLeft() && !root.HasRight())
+                    return null;
+                if (!root.HasLeft())
+                    return root.GetRight();
+                if (!root.HasRight())
+                    return root.GetLeft();
+                else
+                {
+                    int maxval = FindMaxInBST(root.GetLeft());
+                    root.SetValue(maxval);
+                    root.SetLeft(RemoveFromBST(root.GetLeft(), maxval));
+                }
+            }
+            return root;
+        }
+        #endregion
+
+        //184
+        //38
+        public static void ValuesInLevel(BinNode<int> root, int level)
+        {
+            int curlevel = 0;
+            Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
+            Queue<int> levels = new Queue<int>();
+            nodes.Insert(root);
+            levels.Insert(0);
+            while(!nodes.IsEmpty())
+            {
+                if (levels.Remove() == level) { Console.WriteLine(nodes.Head().GetValue()); }
+
+                nodes.Remove();
+                
+                if (root.HasLeft())
+                {
+                    nodes.Insert(root.GetLeft());
+                    levels.Insert(curlevel + 1);
+                }
+
+                if (root.HasRight())
+                {
+                    nodes.Insert(root.GetRight());
+                    levels.Insert(curlevel + 1);
+                }
+            }
+
         }
 
 
-               
+        //39
+        public static void ValuesInEven(BinNode<int> root)
+        {
+            int level = 0;
+            Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
+            Queue<int> levels = new Queue<int>();
+            nodes.Insert(root);
+            levels.Insert(0);
+            while (!nodes.IsEmpty())
+            {
+                if (levels.Head()%2==0) { Console.WriteLine(nodes.Head().GetValue()); }
+                nodes.Remove();
+                levels.Remove();
 
+                if (root.HasLeft())
+                {
+                    nodes.Insert(root.GetLeft());
+                    levels.Insert(level + 1);
+                }
 
-                #endregion
-                #endregion
+                if (root.HasRight())
+                {
+                    nodes.Insert(root.GetRight());
+                    levels.Insert(level + 1);
+                }
+            }
+        }
 
-            
-       
-
-
-
-
+    }  
 }
+

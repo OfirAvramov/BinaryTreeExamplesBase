@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Emit;
 using System.Text;
 using DataStructureCore;
 
@@ -459,6 +460,7 @@ namespace BinaryTreeExamples
         #endregion
 
         #region Binary Search Tree
+        #endregion
 
         #region הוספת ערך לעץ חיפוש
         public static void AddToBST(BinNode<int> t, int x)
@@ -677,6 +679,106 @@ namespace BinaryTreeExamples
                     levels.Insert(level + 1);
                 }
             }
+        }
+
+
+        //41
+        public static int Defrence(BinNode<int> root,int val1, int val2)
+        {
+            int currentLvl = 0;
+            int level1 = 0;
+            int level2 = 0;
+            Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
+            Queue<int> levels = new Queue<int>();
+            nodes.Insert(root);
+            levels.Insert(currentLvl);
+            while(!nodes.IsEmpty())
+            {
+                if (nodes.Head().GetValue() == val1 )
+                { 
+                   level1 = levels.Head();
+                }
+                else if(nodes.Head().GetValue() == val2 ) 
+                {  
+                   level2 = levels.Head(); 
+                }
+               
+                nodes.Remove();
+                levels.Remove();
+                if (root.HasLeft()) 
+                {
+                    nodes.Insert(root.GetLeft());
+                    levels.Insert(currentLvl + 1);
+                }
+
+                if (root.HasRight())
+                {
+                    nodes.Insert(root.GetRight());
+                    levels.Insert(currentLvl + 1);
+                }
+            }
+            return Math.Abs(level2 - level1);
+        }
+
+
+        //Width O(n^2)
+        public static int Width(BinNode<int> root)
+        {
+            int currentLvl = 0;
+            int max = 0;
+         
+            Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
+            Queue<int> levels = new Queue<int>();
+            nodes.Insert(root);
+            levels.Insert(currentLvl);
+            
+            while (!nodes.IsEmpty())
+            {
+               if(NumOfNodesInLevel(root, levels.Head()) > max) { max = NumOfNodesInLevel(root, levels.Head()); }
+
+                nodes.Remove();
+                levels.Remove();
+                if (root.HasLeft())
+                {
+                    nodes.Insert(root.GetLeft());
+                    levels.Insert(currentLvl + 1);
+                }
+
+                if (root.HasRight())
+                {
+                    nodes.Insert(root.GetRight());
+                    levels.Insert(currentLvl + 1);
+                }
+            }
+            return max;
+        }
+        public static int NumOfNodesInLevel(BinNode<int> root , int level)
+        {
+            int curlevel = 0;
+            int count = 0;
+            Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
+            Queue<int> levels = new Queue<int>();
+            nodes.Insert(root);
+            levels.Insert(0);
+            while (!nodes.IsEmpty())
+            {
+                if (levels.Remove() == level) { count++; }
+
+                nodes.Remove();
+
+                if (root.HasLeft())
+                {
+                    nodes.Insert(root.GetLeft());
+                    levels.Insert(curlevel + 1);
+                }
+
+                if (root.HasRight())
+                {
+                    nodes.Insert(root.GetRight());
+                    levels.Insert(curlevel + 1);
+                }
+            }
+            return count;
         }
 
     }  

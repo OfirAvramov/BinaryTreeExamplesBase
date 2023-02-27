@@ -781,6 +781,33 @@ namespace BinaryTreeExamples
             return count;
         }
 
+        public static BinNode<int> PutInTree(BinNode<int> root, int x)
+        {
+            if (root == null)
+            {
+                return new BinNode<int>(x);
+            }
+
+            if (root.GetValue() > x)
+            {
+                root.SetLeft(PutInTree(root.GetLeft(), x));
+            }
+            else
+            {
+                root.SetRight(PutInTree(root.GetRight(), x));
+            }
+            return root;
+        }
+
+        public static bool IsBST(BinNode<int> root)
+        {
+            if(IsLeaf(root)) return true;
+
+            if(root.HasLeft() && root.GetLeft().GetValue() <= root.GetLeft().)
+                return false;
+        }
+
+        public static 
     }  
 }
 

@@ -74,5 +74,10 @@ namespace DataStructureCore
         {
             return " ( " + this.left + " " + this.value + " " + this.right + " ) ";
         }
+
+        public int Max()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

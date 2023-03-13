@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Reflection.Emit;
 using System.Text;
 using DataStructureCore;
@@ -124,7 +125,7 @@ namespace BinaryTreeExamples
         public static bool IsLeaf<T>(BinNode<T> root)
         {
             //עץ ריק הוא לא עלה
-            if (root == null)
+            if (root.GetValue() == null)
                 return false;
             //לעלה אין ילד שמאלי ואין ילד ימני. אם אין יוחזר אמת. אחרת יוחזר שקר
             return !root.HasLeft() && !root.HasRight();
@@ -799,15 +800,31 @@ namespace BinaryTreeExamples
             return root;
         }
 
-        public static bool IsBST(BinNode<int> root)
-        {
-            if(IsLeaf(root)) return true;
+        //public static bool IsBST(BinNode<int> root)
+        //{
+        //    if(IsLeaf(root)) return true;
 
-            if(root.HasLeft() && root.GetLeft().GetValue() <= root.GetLeft().)
-                return false;
+        //    if(root.HasLeft() && root.GetLeft().GetValue() <= root.GetLeft().)
+        //        return false;
+        //}
+
+        public static int NumofTsmatim<T>(BinNode<T> root)
+        {
+            if (root == null) return 0;
+
+            return 1 + NumofTsmatim(root.GetLeft()) + NumofTsmatim(root.GetRight());
         }
 
-        public static 
+        public static bool IsExist<T>(BinNode<T> root, T value)
+        {
+            if (root == null) return false;
+
+            if (root.GetValue().Equals(value)) return true;
+
+            return IsExist(root.GetLeft(), value) || IsExist(root.GetRight(),value);
+        }
+
+        pub
     }  
 }
 

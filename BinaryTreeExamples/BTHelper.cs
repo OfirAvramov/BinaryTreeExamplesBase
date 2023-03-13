@@ -824,7 +824,14 @@ namespace BinaryTreeExamples
             return IsExist(root.GetLeft(), value) || IsExist(root.GetRight(),value);
         }
 
-        pub
+        public static bool IsShalem<T>(BinNode<T> root)
+        {
+            if(IsLeaf(root)) return true;
+            if(!(root.HasLeft() && root.HasRight())) return false;
+            return IsShalem(root.GetLeft()) && IsShalem(root.GetLeft());
+        }
+
+        public
     }  
 }
 
